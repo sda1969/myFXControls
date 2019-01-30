@@ -3,12 +3,15 @@ package application;
 import connectButton.ConnectButton01;
 import connectButton.ConnectButton02;
 import connectButton.ConnectButtonController;
+
 import eventBus.EventBus;
 import eventBus.FXEventBus;
 import eventBus.events.ConnectionEvent;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import textFieldSmart.TextFieldSmart;
+import textFieldSmart.validators.Ip4Validator;
 
 
 //---- для отладки исходного кода компонента
@@ -33,9 +36,16 @@ public class MainMyControls extends Application {
             connBtnCtrl.setEventBus(eventBus);
             connBtnCtrl.setStatesName("Подключить","Отключить");
             //--------------------------------------------------------
-
+            
+            // ----------textFieldSmart-------------
+            TextFieldSmart tfs = new TextFieldSmart();
+            tfs.setValidator(new Ip4Validator());
+            tfs.setText("1.2.3.456");
+            
+            //--------------------------------------------------------
             primaryStage.setTitle("My Controls test");
-            primaryStage.setScene(new Scene(connBtnCtrl));
+            //primaryStage.setScene(new Scene(connBtnCtrl));
+            primaryStage.setScene(new Scene(tfs));
             primaryStage.show();	
 		} catch(Exception e) {
 			e.printStackTrace();
