@@ -22,8 +22,8 @@ public class MainMyControls extends Application {
 		try {
 				
 			// ----------connButton-------------           
-            ConnectButtonController connBtnCtrl = new ConnectButton01();
-            //ConnectButtonController connBtnCtrl = new ConnectButton02();
+            //ConnectButtonController connBtnCtrl = new ConnectButton01();
+            ConnectButtonController connBtnCtrl = new ConnectButton02();
             
             connBtnCtrl.setConnAction(()->{
             	System.out.println("Action Connect");
@@ -40,7 +40,7 @@ public class MainMyControls extends Application {
             // ----------textFieldSmart-------------
             TextFieldSmart tfs = new TextFieldSmart();
             tfs.setValidator(new Ip4Validator());
-            tfs.setText("1.2.3.456");
+            tfs.setText("1.2.3.45");
             
             //--------------------------------------------------------
             primaryStage.setTitle("My Controls test");
