@@ -1,14 +1,13 @@
 package connectButton;
 
 import eventBus.EventBus;
-import eventBus.events.ConnectionEvent;
+import eventBus.events.ConnectionEventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
-public abstract class ConnectButtonController extends AnchorPane {
-	private boolean isConn = false;
+public abstract class ConnectButtonController extends AnchorPane{
 	private Runnable connAction;
 	private Runnable disconnAction;
 	private String offText = "";
@@ -26,7 +25,7 @@ public abstract class ConnectButtonController extends AnchorPane {
 	final protected void onAction() { 
 	
 		new Thread(()->{
-			if (!isConn) {
+			if (!connEvHdlr.isConnected()) {
 				if (connAction != null) {
 					connAction.run();
 				}
@@ -38,10 +37,30 @@ public abstract class ConnectButtonController extends AnchorPane {
 			}
 		}).start();
 	}
-
+	
+	//----- Event "Connect" on the eventBus is handled by connEvHdlr
+	final private  ConnectionEventHandler connEvHdlr = new ConnectionEventHandler((boolean status)->{
+			onConnEvent(status);
+	});
+	//designed to be overrided in subclasses
 	protected void onConnEvent(boolean status) {
-		isConn = status;
 		myButton.setText(status ? offText : onText);
+	}
+	
+	protected final void fireCurrentState() {
+		connEvHdlr.fireCurrentState();
+	}
+	//----- Common public interface ----------
+	final public void setEventBus(EventBus eventBus) {
+		connEvHdlr.setEventBus(eventBus);
+	}
+
+	final public void setConnEventInverted(boolean status) {
+		connEvHdlr.setConnEventInverted(status);
+	}
+
+	final public void setConnEventEnabled(boolean status) {
+		connEvHdlr.setConnEventEnabled(status);
 	}
 	
 	final public void setConnAction(Runnable connAction) {
@@ -55,12 +74,7 @@ public abstract class ConnectButtonController extends AnchorPane {
 	final public void setStatesName(String conn, String disconn) {
 		this.onText = conn;
 		this.offText = disconn;
-		myButton.setText(isConn ? offText : onText);
+		myButton.setText(connEvHdlr.isConnected() ? offText : onText);
 	}
 	
-	final public void setEventBus(EventBus eventBus) {
-		eventBus.registerListener((ConnectionEvent event) -> {
-			onConnEvent(event.connected);
-		}, ConnectionEvent.class);
-	}
 }

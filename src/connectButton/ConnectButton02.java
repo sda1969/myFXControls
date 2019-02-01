@@ -18,10 +18,10 @@ public class ConnectButton02 extends ConnectButtonController {
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
-		onConnEvent(false);
+		fireCurrentState();
 	}
 
-	protected void onConnEvent(boolean status) {
+	public void onConnEvent(boolean status) {
 		super.onConnEvent(status);
 		myButton.setGraphic(new ImageView(status ? iconOn : iconOff));
 	}

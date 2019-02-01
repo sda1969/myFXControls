@@ -2,6 +2,8 @@ package textFieldSmart;
 
 import java.io.IOException;
 
+import eventBus.EventBus;
+import eventBus.events.ConnectionEventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -11,7 +13,13 @@ import textFieldSmart.validators.Validator;
 @SuppressWarnings("serial")
 public class TextFieldSmart extends AnchorPane {
 	private Validator validator = null;
-
+	@FXML
+	protected TextField textField;
+	//----- Event "Connect" on the eventBus is handled by connEvHdlr
+	private final ConnectionEventHandler connEvHdlr = new ConnectionEventHandler((boolean status)->{
+		onConnEvent(status);
+	});	
+	
 	public class TFSException extends Exception {
 		TFSException(String msg) {
 			super(msg);
@@ -33,11 +41,9 @@ public class TextFieldSmart extends AnchorPane {
 		textField.textProperty().addListener((observable, oldValue, newValue) -> {
 			//System.out.println("textfield changed from " + oldValue + " to " + newValue);
 			showValidationResult(isTextValid(newValue));
-		});
+		});	
+		connEvHdlr.fireCurrentState();
 	}
-
-	@FXML
-	protected TextField textField;
 
 	final public void setValidator(Validator vldr) {
 		this.validator = vldr;
@@ -63,4 +69,23 @@ public class TextFieldSmart extends AnchorPane {
 	final public void setText(String text) {
 		textField.setText(text);
 	}
+
+	//designed to be overrided in subclasses
+	protected void onConnEvent(boolean status) {
+		textField.setEditable(status);
+	}
+
+	final public void setEventBus(EventBus eventBus) {
+		connEvHdlr.setEventBus(eventBus);
+	}
+
+	final public void setConnEventInverted(boolean status) {
+		connEvHdlr.setConnEventInverted(status);
+	}
+
+	final public void setConnEventEnabled(boolean status) {
+		connEvHdlr.setConnEventEnabled(status);
+	}
+
+	
 }

@@ -21,12 +21,11 @@ public class ConnectButton01 extends ConnectButtonController {
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
-		onConnEvent(false);
-
+		fireCurrentState();
 	}
 
 	@Override
-	protected void onConnEvent(boolean status) {
+	public void onConnEvent(boolean status) {
 		super.onConnEvent(status);
 		myImageView.setImage(status ? iconOn : iconOff);
 	}
