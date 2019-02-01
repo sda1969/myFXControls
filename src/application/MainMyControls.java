@@ -1,5 +1,6 @@
 package application;
 	
+import buttonOnBus.ButtonOnBus;
 import connectButton.ConnectButton01;
 import connectButton.ConnectButton02;
 import connectButton.ConnectButtonController;
@@ -22,7 +23,7 @@ public class MainMyControls extends Application {
 	public void start(Stage primaryStage) {
 		try {
 				
-			// ----------connButton-------------           
+			// ----------ConnectButton-------------           
             ConnectButtonController connBtnCtrl01 = new ConnectButton01();
             connBtnCtrl01.setConnAction(()->{
             	System.out.println("Action Connect");
@@ -52,7 +53,7 @@ public class MainMyControls extends Application {
             connBtnCtrl02.setConnEventEnabled(true);
             //--------------------------------------------------------
             
-            // ----------textFieldSmart-------------
+            // ----------TextFieldSmart-------------
             TextFieldSmart tfs = new TextFieldSmart();
             tfs.setValidator(new Ip4Validator());
             tfs.setText("1.2.3.45");
@@ -61,10 +62,21 @@ public class MainMyControls extends Application {
             tfs.setConnEventEnabled(true);
             
             //--------------------------------------------------------
+            
+            //----------ButtonOnBus-------------------------------
+            ButtonOnBus btnOnBus = new ButtonOnBus();
+            btnOnBus.setEventBus(eventBus);
+            btnOnBus.setText("ButtonOnBus");
+            btnOnBus.setButtonAction(()->{
+            	System.out.println("ButtonOnBus is pressed");
+            });
+            
+            //----------------------------------------------------
             VBox root = new VBox();
             root.getChildren().add(connBtnCtrl01);
             root.getChildren().add(connBtnCtrl02);
             root.getChildren().add(tfs);
+            root.getChildren().add(btnOnBus);
             
             primaryStage.setTitle("My Controls test");
             primaryStage.setScene(new Scene(root));
