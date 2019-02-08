@@ -1,5 +1,7 @@
 package application;
 	
+import java.util.prefs.Preferences;
+
 import buttonOnBus.ButtonOnBus;
 import connectButton.ConnectButton01;
 import connectButton.ConnectButton02;
@@ -19,6 +21,8 @@ import textFieldSmart.validators.Ip4Validator;
 //---- для отладки исходного кода компонента
 public class MainMyControls extends Application {
 	public  final EventBus eventBus = new FXEventBus();
+	public  final Preferences localPrefs = Preferences.userRoot().node("MainMyControls.class");
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -56,7 +60,7 @@ public class MainMyControls extends Application {
             // ----------TextFieldSmart-------------
             TextFieldSmart tfs = new TextFieldSmart();
             tfs.setValidator(new Ip4Validator());
-            tfs.setText("1.2.3.45");
+            tfs.setPreference("1.2.3.4", localPrefs);
             tfs.setEventBus(eventBus);
             tfs.setConnEventInverted(true);
             tfs.setConnEventEnabled(true);
