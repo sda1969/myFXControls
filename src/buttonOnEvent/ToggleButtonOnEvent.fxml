@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
 
 <fx:root type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="myButton" alignment="CENTER" mnemonicParsing="false" onAction="#onAction" prefHeight="25.0" prefWidth="300.0">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Button>
+            <ToggleButton fx:id="button" mnemonicParsing="false" onAction="#onAction" prefHeight="25.0" prefWidth="300.0" />
          </children>
       </HBox>
    </children>

@@ -21,7 +21,6 @@ public class ConnectButton01 extends ConnectButtonController {
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
-		fireCurrentState();
 	}
 
 	@Override

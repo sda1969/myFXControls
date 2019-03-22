@@ -3,8 +3,9 @@ package textFieldSmart;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
-import eventBus.EventBus;
-import eventBus.events.ConnectionEventHandler;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -21,13 +22,12 @@ public class TextFieldSmart extends AnchorPane {
 	private static volatile int objectCounter = 0;
 	private final String objectIdStr; 
 	private Preferences prefs = null;
-	
+	private boolean isInvertedConnAction = false;
 	@FXML
-	protected TextField textField;
-	//----- Event "Connect" on the eventBus is handled by connEvHdlr
-	private final ConnectionEventHandler connEvHdlr = new ConnectionEventHandler((boolean status)->{
-		onConnEvent(status);
-	});	
+	private TextField textField;
+
+	private ObservableBooleanValue connectionStatus = null;	
+	
 	
 	public class TFSException extends Exception {
 		TFSException(String msg) {
@@ -57,7 +57,6 @@ public class TextFieldSmart extends AnchorPane {
 					prefs.put(objectIdStr, textField.getText());	
 			}
 		});	
-		connEvHdlr.fireCurrentState();
 	}
 
 	final public void setValidator(Validator vldr) {
@@ -88,19 +87,42 @@ public class TextFieldSmart extends AnchorPane {
 	//designed to be overrided in subclasses
 	protected void onConnEvent(boolean status) {
 		textField.setEditable(status);
+		//visualization of the Connection state
+		if (status) {
+			showValidationResult(isTextValid(textField.getText()));
+		}
+		else {
+			textField.setStyle("-fx-background-color: lightgrey;");
+		}
 	}
-
-	final public void setEventBus(EventBus eventBus) {
-		connEvHdlr.setEventBus(eventBus);
+	
+	private void fireCurrentConnState() {
+		if (connectionStatus != null) {
+			onConnEvent(connectionStatus.get() ^ isInvertedConnAction); // fire current state
+		}
 	}
-
+	
+	/* BooleanProperty is passed to listen for the connection status changing
+	 * ObservableBooleanValue interface has no methods to change status, listen only 
+	 */
+	final public void setConnEvent(ObservableBooleanValue eventValue) {
+		connectionStatus = eventValue;
+		fireCurrentConnState();
+		if (connectionStatus != null) {
+			connectionStatus.addListener((ChangeListener<Boolean>) (o, oldVal, newVal) -> {
+				//to guarantie that executed from FX thread 
+				Platform.runLater(()-> {
+					fireCurrentConnState();
+				});
+			});
+		}
+	}
+	
 	final public void setConnEventInverted(boolean status) {
-		connEvHdlr.setConnEventInverted(status);
+		isInvertedConnAction = status;
 	}
 
-	final public void setConnEventEnabled(boolean status) {
-		connEvHdlr.setConnEventEnabled(status);
-	}
+
 	/* Accociate the object with Preferences.
 	 * The valid text which is saved in the Preferences
 	 * or the default value(for the very first use) is shown*/

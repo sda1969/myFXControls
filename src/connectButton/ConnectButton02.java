@@ -18,7 +18,6 @@ public class ConnectButton02 extends ConnectButtonController {
 		} catch (IOException exception) {
 			throw new RuntimeException(exception);
 		}
-		fireCurrentState();
 	}
 
 	public void onConnEvent(boolean status) {
