@@ -11,7 +11,11 @@
    <children>
       <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ToggleButton fx:id="button" mnemonicParsing="false" onAction="#onAction" prefHeight="25.0" prefWidth="300.0" />
+            <ToggleButton fx:id="button" mnemonicParsing="false" onAction="#onAction" prefHeight="25.0" prefWidth="300.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+              </ToggleButton> 
          </children>
       </HBox>
    </children>
