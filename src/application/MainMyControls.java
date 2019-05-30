@@ -61,7 +61,7 @@ public class MainMyControls extends Application {
             tfs.setPreference("1.2.3.4", localPrefs);
             tfs.setConnEventInverted(true);
             tfs.setConnEvent(connEvent);
-
+            tfs.setOnValidChange(str -> System.out.println(str));
             
             //--------------------------------------------------------
             

@@ -1,5 +1,7 @@
 package textFieldSmart.validators;
 
+import textFieldSmart.validators.Validator;
+
 public class IntRangeValidator implements Validator{
 	private int lo;
 	private int hi;

@@ -27,7 +27,11 @@ public class TextFieldSmart extends AnchorPane {
 	private TextField textField;
 
 	private ObservableBooleanValue connectionStatus = null;	
+	private OnValidChange onValidChange;
 	
+	public interface OnValidChange {
+		void apply(String value);
+	}
 	
 	public class TFSException extends Exception {
 		TFSException(String msg) {
@@ -55,6 +59,9 @@ public class TextFieldSmart extends AnchorPane {
 			showValidationResult(isValid);
 			if ((prefs != null) && isValid){
 					prefs.put(objectIdStr, textField.getText());	
+			}
+			if(isValid && (onValidChange != null)) {
+				onValidChange.apply(newValue);
 			}
 		});	
 	}
@@ -131,4 +138,7 @@ public class TextFieldSmart extends AnchorPane {
 		this.prefs = prefs;
 	}
 	
+	final public void setOnValidChange(OnValidChange callback) {
+		this.onValidChange = callback;
+	}
 }
