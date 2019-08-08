@@ -49,6 +49,7 @@ public class ToggleButtonOnEvent extends AnchorPane {
 	// designed to be overrided in subclasses
 	protected void onConnEvent(boolean status) {
 		button.disableProperty().set(!status);
+		button.selectedProperty().set(false);
 	}
 
 	private void fireCurrentConnState() {
