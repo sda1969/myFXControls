@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import textFieldSmart.validators.Validator;
+import textFieldSmart.TFSException;
 
 @SuppressWarnings("serial")
 public class TextFieldSmart extends AnchorPane {
@@ -33,11 +34,11 @@ public class TextFieldSmart extends AnchorPane {
 		void apply(String value);
 	}
 	
-	public class TFSException extends Exception {
-		TFSException(String msg) {
-			super(msg);
-		}
-	}
+//	public static class TFSException extends Exception {
+//		TFSException(String msg) {
+//			super(msg);
+//		}
+//	}
 
 	public TextFieldSmart() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/textFieldSmart/TextFieldSmart.fxml"));

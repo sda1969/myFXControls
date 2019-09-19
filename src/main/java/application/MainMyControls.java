@@ -40,6 +40,7 @@ public class MainMyControls extends Application {
             connBtnCtrl01.setStatesName("Подключить","Отключить");
             connBtnCtrl01.setConnEventInverted(false);
             connBtnCtrl01.setConnEvent(connEvent);
+            connBtnCtrl01.setPrefWidth(150);
             
             ConnectButtonController connBtnCtrl02 = new ConnectButton02();
             connBtnCtrl02.setConnAction(()->{
